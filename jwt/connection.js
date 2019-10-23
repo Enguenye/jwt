@@ -1,7 +1,7 @@
 function connect(callback){
 
     const MongoClient = require("mongodb").MongoClient;
-    const url = "mongodb+srv://Enguenye2:123@cluster0-guh6h.mongodb.net/test?retryWrites=true&w=majority";
+    const url = "mongodb://localhost:27017";
     const client = new MongoClient(url, {useNewUrlParser: true });
   
     client.connect(errClient=>{
@@ -19,12 +19,11 @@ function connect(callback){
 
   function getUser(callback,nombre){
     connect( (client, collection) =>{
-      collection.find({nombre:nombre}).toArray(function(errDatabase, docs) {
-          console.log(docs);
+      collection.find({username:nombre}).toArray(function(errDatabase, docs) {
         if(errDatabase!==null)
           console.log("Error while getting the collection", errDatabase);
         callback(docs);
-       
+       client.close();
       });
     });
   }
